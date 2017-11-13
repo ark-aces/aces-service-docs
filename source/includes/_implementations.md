@@ -16,5 +16,5 @@ multiple different blockchains or interface with physical hardware.
 
 All implementations conforming to the ACES Service API specification can be 
 consumed using the common client libraries and processing logic, 
-allowing different services to easily plugged into applications or list on the
+allowing different services to easily plugged into applications or listed on the
 Service Marketplace.
