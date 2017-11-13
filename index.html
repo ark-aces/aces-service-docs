@@ -121,6 +121,17 @@
           </li>
           <li>
                 <a href="#service-interfaces" class="toc-h1 toc-link" data-title="Service Interfaces">Service Interfaces</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#ark-smartbridge-payable" class="toc-h2 toc-link" data-title="Ark SmartBridge Payable">Ark SmartBridge Payable</a>
+                  </li>
+                  <li>
+                    <a href="#ark-returnable" class="toc-h2 toc-link" data-title="Ark Returnable">Ark Returnable</a>
+                  </li>
+                  <li>
+                    <a href="#expirable" class="toc-h2 toc-link" data-title="Expirable">Expirable</a>
+                  </li>
+              </ul>
           </li>
           <li>
                 <a href="#instances" class="toc-h1 toc-link" data-title="Instances">Instances</a>
@@ -199,10 +210,87 @@ multiple different blockchains or interface with physical hardware.</p>
 
 <p>All implementations conforming to the ACES Service API specification can be 
 consumed using the common client libraries and processing logic, 
-allowing different services to easily plugged into applications or list on the
+allowing different services to easily plugged into applications or listed on the
 Service Marketplace.</p>
 <h1 id='service-interfaces'>Service Interfaces</h1>
-<p>todo: explain service interfaces</p>
+<p>The ACES Service API defines a highly abstract blueprint for services that can
+perform many different types of functions across many different blockchains. 
+As such, ACES contracts are able to accept a flexible range of input values
+and return an equally flexible range of result data for contract executions.</p>
+
+<p>To simplify integration of services into a common Marketplace, the ACES Service
+API defines several Service Interfaces to control presentational aspects 
+of different types of contracts.</p>
+
+<p>These interfaces tell consumers the semantic meaning of certain sets of contract 
+request and response parameters, so they can be rendered or controlled differently
+in the Marketplace or other UI applications.</p>
+
+<p>We expect to add more Services Interfaces as more blockchains are integrated
+and different types of contracts are defined. Some examples may include interfaces
+such as <code>fileUpload</code>, <code>multiFileUpload</code>, <code>expirable</code>, etc...</p>
+<h3 id='ark-smartbridge-payable'>Ark SmartBridge Payable</h3>
+<p>The <code>arkSmartbrigePayable</code> interface specifies that the contract can be paid for
+using an Ark SmartBridge transaction.</p>
+
+<p>Response Parameters:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>arkServiceAddress</td>
+<td>String</td>
+<td>The service Ark address to send payment transaction to.</td>
+</tr>
+</tbody></table>
+<h3 id='ark-returnable'>Ark Returnable</h3>
+<p>The <code>arkReturnable</code> interface specifies that the contract can return refundable
+ARK to the given return address. </p>
+
+<p>Request Parameters:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>arkReturnAddress</td>
+<td>String</td>
+<td>The return Ark address to send refund transaction to.</td>
+</tr>
+</tbody></table>
+<h3 id='expirable'>Expirable</h3>
+<p>The <code>expirable</code> interface specifies that the contract will expire after the given
+date if not executed.</p>
+
+<p>Response Parameters:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expirationDate</td>
+<td>String</td>
+<td>The ISO 8601 formatted date time string specifying when the contract will expire.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
 <h1 id='instances'>Instances</h1>
 <p>Instances run on any web server and can be made private or public. Multiple instances may
 also run on a single web server using different HTTP ports. </p>
