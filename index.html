@@ -176,6 +176,25 @@
                   </li>
               </ul>
           </li>
+          <li>
+                <a href="#service-info" class="toc-h1 toc-link" data-title="Service Info">Service Info</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-service-info" class="toc-h2 toc-link" data-title="Get Service Info">Get Service Info</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+                <a href="#service-contract" class="toc-h1 toc-link" data-title="Service Contract">Service Contract</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#create-service-contract" class="toc-h2 toc-link" data-title="Create Service Contract">Create Service Contract</a>
+                  </li>
+                  <li>
+                    <a href="#get-service-contract" class="toc-h2 toc-link" data-title="Get Service Contract">Get Service Contract</a>
+                  </li>
+              </ul>
+          </li>
       </div>
     </div>
     <div class="page-wrapper">
@@ -502,9 +521,7 @@ are returned when there is something wrong with the server and not the consumer&
 <blockquote>
 <p>Example error response:</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code>curl <span class="s1">'http://localhost/contracts/123456/cancels'</span> <span class="se">\</span>
-  -X POST 
-</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alreadyCancelled"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Contract has already been cancelled."</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -530,14 +547,18 @@ error <code>code</code> value.</p>
 </tbody></table>
 <h3 id='validation-errors'>Validation Errors</h3>
 <blockquote>
-<p>Example error response:</p>
+<p>Example error request:</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>curl <span class="s1">'http://localhost/contracts'</span> <span class="se">\</span>
   -X POST <span class="se">\</span>
   -d <span class="s1">'{
      "arkAddress": "not-an-addresss"
    }'</span>
-</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</code></pre>
+<blockquote>
+<p>Example error response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"invalidRequest"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request is invalid."</span><span class="p">,</span><span class="w">
   </span><span class="s2">"fieldErrors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -623,6 +644,178 @@ ensure they can access services in the case a provider goes down.</p>
 <p>The upcoming ACES Service Marketplace will add a layer of trust and stability to Services
 by verifying service providers and enabling fallbacks in case a provider goes down.</p>
 <h1 id='api-reference'>API Reference</h1><h1 id='health'>Health</h1><h2 id='get-health'>Get Health</h2>
+<p>Get application health information.</p>
+
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s1">'http://localhost:8080/status'</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="n">ServiceClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServiceClient</span><span class="o">(</span><span class="s">"http://localhost"</span><span class="o">);</span>
+<span class="n">Health</span> <span class="n">health</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getHealth</span><span class="o">();</span>
+</code></pre>
+<blockquote>
+<p>Returned response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"up"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='http-request'>HTTP Request</h3>
+<p><code>GET http://localhost:8080/status</code></p>
+<h1 id='service-info'>Service Info</h1><h2 id='get-service-info'>Get Service Info</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s1">'http://localhost/info'</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="n">ServiceClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServiceClient</span><span class="o">(</span><span class="s">"http://localhost"</span><span class="o">);</span>
+<span class="n">ServiceInfo</span> <span class="n">serviceInfo</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getServiceInfo</span><span class="o">();</span>
+</code></pre>
+<blockquote>
+<p>Returned response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"ACES"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="s2">"an ACES service"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"instructions"</span><span class="p">:</span><span class="s2">"Service usage instructions in markdown format."</span><span class="w">
+    </span><span class="s2">"capacities"</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1.00 BTC"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"flatFee"</span><span class="p">:</span><span class="s2">"0.01"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"percentageFee"</span><span class="p">:</span><span class="s2">"0.01"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"contractSchema"</span><span class="p">:{},</span><span class="w">
+    </span><span class="s2">"interfaces"</span><span class="p">:[</span><span class="s2">"arkSmartbridgePayable"</span><span class="p">,</span><span class="w"> </span><span class="s2">"arkReturnable"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Gets Service Info object.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>GET http://localhost/info</code></p>
+<h1 id='service-contract'>Service Contract</h1><h2 id='create-service-contract'>Create Service Contract</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s1">'http://localhost/contracts'</span> <span class="se">\</span>
+  -X POST <span class="se">\</span>
+  -d <span class="s1">'{
+    "correlationId": "8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f",
+    "arguments": {
+      "btcAmount": "1.00",
+      "recipientBitcoinAddress": "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX",
+      "returnArkAddres": "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"
+    }
+  }'</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="n">ServiceClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServiceClient</span><span class="o">(</span><span class="s">"http://localhost"</span><span class="o">);</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">arguments</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">();</span>
+<span class="n">arguments</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"btcAmount"</span><span class="o">,</span> <span class="s">"1.00"</span><span class="o">);</span>
+<span class="n">arguments</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"recipientBitcoinAddress"</span><span class="o">,</span> <span class="s">"1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX"</span><span class="o">);</span>
+<span class="n">arguments</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"returnArkAddres"</span><span class="o">,</span> <span class="s">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="o">);</span>
+
+<span class="n">ContractRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ContractRequest</span><span class="o">();</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setCorrelationId</span><span class="o">(</span><span class="n">UUID</span><span class="o">.</span><span class="na">randomUUID</span><span class="o">());</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setArguments</span><span class="o">(</span><span class="n">arguments</span><span class="o">);</span>
+
+<span class="n">Contract</span> <span class="n">contract</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">createContract</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</code></pre>
+<blockquote>
+<p>Returned response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"f2c0244d-8473-417a-98ce-f30a979e925a"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"correlationId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"btcAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"requiredArkAmount"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2250.00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"serviceArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AewU1vEmPrtQNjdVo33cX84bfovY3jNAkV"</span><span class="p">,</span><span class="w"> 
+  </span><span class="s2">"returnArkAddress"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-01T22:35:57.695Z"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Creates a new service contract.</p>
+<h3 id='parameters'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>In</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ContractRequest</td>
+<td>body</td>
+<td>string</td>
+<td>correlationId</td>
+<td>The request to create a new contract.</td>
+</tr>
+</tbody></table>
+<h3 id='schema'>Schema</h3>
+<table><thead>
+<tr>
+<th>Properties</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>correlationId</td>
+<td>string</td>
+<td>Requestor generated globally unique identifier for correleating requests.</td>
+</tr>
+<tr>
+<td>arguments</td>
+<td>array</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>POST http://localhost/contracts</code></p>
+<h2 id='get-service-contract'>Get Service Contract</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s1">'http://localhost/contracts/f2c0244d-8473-417a-98ce-f30a979e925a'</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="nx">ServiceClient</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ServiceClient</span><span class="p">(</span><span class="s2">"http://localhost"</span><span class="p">);</span>
+<span class="nx">Contract</span> <span class="nx">contract</span> <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">getContract</span><span class="p">(</span><span class="s2">"f2c0244d-8473-417a-98ce-f30a979e925a"</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>Returned response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"f2c0244d-8473-417a-98ce-f30a979e925a"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"correlationId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"executed"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"btcAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"requiredArkAmount"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2250.00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"serviceArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AewU1vEmPrtQNjdVo33cX84bfovY3jNAkV"</span><span class="p">,</span><span class="w"> 
+  </span><span class="s2">"returnArkAddress"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"returnArkAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50.00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"arkPaymentTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iefa85381c5c3c70f96d848df53ab7ed6135a7fb34b43e8f91f6j42018bf1258"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"returnArkTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"bitcoinTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2f12236a2684264ff33c7f1ce28ea9ed6135a7fb34af4185d504b6022fba8f77"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-01T22:35:57.695Z"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"executedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-01T22:35:58.000Z"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Gets service contract info for a contract.</p>
+<h3 id='parameters-2'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>In</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>path</td>
+<td>string</td>
+<td>true</td>
+<td>Contract identifier.</td>
+</tr>
+</tbody></table>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>GET http://localhost/contracts/{id}</code></p>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
