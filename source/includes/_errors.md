@@ -29,12 +29,6 @@ HTTP Code | Description
 
 > Example error response:
 
-
-```shell
-curl 'http://localhost/contracts/123456/cancels' \
-  -X POST 
-```
-
 ```json
 {
   "code": "alreadyCancelled",
@@ -59,7 +53,7 @@ invalidRequest    | The request body is invalid. See `Validation Errors` below.
 
 ### Validation Errors
 
-> Example error response:
+> Example error request:
 
 ```shell
 curl 'http://localhost/contracts' \
@@ -69,6 +63,7 @@ curl 'http://localhost/contracts' \
    }'
 ```
 
+> Example error response:
 
 ```json
 {

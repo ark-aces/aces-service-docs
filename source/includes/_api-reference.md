@@ -2,21 +2,23 @@
 # API Reference
 
 
-# Get Health of node.
+# Health
+
+## Get Health
+ 
+Get application health information.
+
+> Example request:
 
 ```shell
-curl -X GET 'http://localhost:8080/status'
+curl 'http://localhost:8080/status'
 ```
-```javascript
-const request = require('request');
-request(
-	'http://localhost:8080/status', 
-	{ json: true }, 
-	(err, res, body) => {
-	console.log(body.explanation);
-	}
-);
+
+```java
+ServiceClient client = new ServiceClient("http://localhost");
+Health health = client.getHealth();
 ```
+
 > Returned response:
 
 ```json
@@ -25,25 +27,24 @@ request(
 }
 ```
 
-	Get application health information.
-
 ### HTTP Request
-  `GET http://localhost:8080/status`
+
+`GET http://localhost:8080/status`
 
 
-# Get Service Info.
+# Service Info
+
+## Get Service Info
+
+> Example request:
+
 ```shell
-curl -X GET 'http://localhost:8080/info'
+curl 'http://localhost/info'
 ```
-```javascript
-const request = require('request');
-request(
-    'http://localhost:8080/info', 
-    { json: true }, 
-    (err, res, body) => {
-      console.log(body.explanation);
-    }
-);
+
+```java
+ServiceClient client = new ServiceClient("http://localhost");
+ServiceInfo serviceInfo = client.getServiceInfo();
 ```
 > Returned response:
 
@@ -55,95 +56,129 @@ request(
 	"capacities":[1, "BTC", "1.00 BTC"],
 	"flatFee":"0.01",
 	"percentageFee":"0.01",
-	"contractSchema:{object},
+	"contractSchema":{},
 	"interfaces":["arkSmartbridgePayable", "arkReturnable"]
 }
 ```
 
-  Gets Service Info object.
+Gets Service Info object.
 
 ### HTTP Request
-  `GET http://localhost:8080/info`
+
+`GET http://localhost/info`
 
 
-# Create Service Contract
+# Service Contract
+
+## Create Service Contract
+
+> Example request:
+
 ```shell
-curl -X POST 'http://localhost:8080/contracts'
+curl 'http://localhost/contracts' \
+  -X POST \
+  -d '{
+    "correlationId": "8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f",
+    "arguments": {
+      "btcAmount": "1.00",
+      "recipientBitcoinAddress": "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX",
+      "returnArkAddres": "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"
+    }
+  }'
 ```
 
-```javascript
-const request = require('request');
-request(
-    'http://localhost:8080/contracts', 
-    { json: true }, 
-    (err, res, body) => {
-      console.log(body.explanation);
-    }
-);
+```java
+ServiceClient client = new ServiceClient("http://localhost");
+
+Map<String, Object> arguments = new HashMap();
+arguments.put("btcAmount", "1.00");
+arguments.put("recipientBitcoinAddress", "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX");
+arguments.put("returnArkAddres", "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx");
+
+ContractRequest request = new ContractRequest();
+request.setCorrelationId(UUID.randomUUID());
+request.setArguments(arguments);
+
+Contract contract = client.createContract(request);
 ```
+
 > Returned response:
 
 ```json
 {
-	"name":"ACES",
-	"value":{object}
+  "id" : "f2c0244d-8473-417a-98ce-f30a979e925a",
+  "correlationId" : "8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f",
+  "status": "new",
+  "btcAmount": "1.00",
+  "requiredArkAmount" : "2250.00",
+  "serviceArkAddress": "AewU1vEmPrtQNjdVo33cX84bfovY3jNAkV", 
+  "returnArkAddress" : "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx",
+  "createdAt": "2017-07-01T22:35:57.695Z"
 }
 ``` 
+
 Creates a new service contract.
 
 ### Parameters
 
-  Parameter       | In      | Type    | Required      | Description             
-  --------------- | ----    | ------- | ----          | ----------------------- 
-  ContractRequest | body    | string  | correlationId | The request to create a new contract.
+Parameter       | In      | Type    | Required      | Description             
+--------------- | ----    | ------- | ----          | ----------------------- 
+ContractRequest | body    | string  | correlationId | The request to create a new contract.
 
 ### Schema
 
-  Properties      | Type    | Description             
-  --------------- | ------- | ----------------------- 
-  correlationId   | string  | Requestor generated globally unique identifier for correleating requests.
-  arguments 	  | array   |
+Properties      | Type    | Description             
+--------------- | ------- | ----------------------- 
+correlationId   | string  | Requestor generated globally unique identifier for correleating requests.
+arguments 	  | array   |
 
 
 ### HTTP Request
-  `POST http://localhost:8080/subscriptions/{id}/unsubscribes`
+
+`POST http://localhost/contracts`
 
 
+## Get Service Contract
 
-# Get Service Contract.
-  ```shell
-  curl -X POST 'http://localhost:8080/contracts/{id}'
-  ```
-  ```javascript
-  const request = require('request');
-  request(
-      'http://localhost:8080/contracts/{id}', 
-      { json: true }, 
-      (err, res, body) => {
-        console.log(body.explanation);
-      }
-  );
-  ```
-  > Returned response:
+> Example request:
+
+```shell
+curl 'http://localhost/contracts/f2c0244d-8473-417a-98ce-f30a979e925a'
+```
+
+```javascript
+ServiceClient client = new ServiceClient("http://localhost");
+Contract contract = client.getContract("f2c0244d-8473-417a-98ce-f30a979e925a");
+```
+
+> Returned response:
 
 ```json
-    {
-      "id": "329857298735983",
-      "createdAt": "2017-11-08T05:34:54.267Z",
-      "expiresAt":"2017-12-08T05:34:54.267Z",
-      "correlationId":"1234",
-      "status": "pendingPayment",
-      "results":
-        {
-      	"name":"ACES",
-      	"value": {object}
-      	}
-    }
+{
+  "id" : "f2c0244d-8473-417a-98ce-f30a979e925a",
+  "correlationId" : "8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f",
+  "status": "executed",
+  "btcAmount": "1.00",
+  "requiredArkAmount" : "2250.00",
+  "serviceArkAddress": "AewU1vEmPrtQNjdVo33cX84bfovY3jNAkV", 
+  "returnArkAddress" : "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx",
+  "returnArkAmount": "50.00",
+  "arkPaymentTransactionId": "iefa85381c5c3c70f96d848df53ab7ed6135a7fb34b43e8f91f6j42018bf1258",
+  "returnArkTransactionId": "49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f",
+  "bitcoinTransactionId": "2f12236a2684264ff33c7f1ce28ea9ed6135a7fb34af4185d504b6022fba8f77",
+  "createdAt": "2017-07-01T22:35:57.695Z",
+  "executedAt": "2017-07-01T22:35:58.000Z"
+}
 ```
-  Gets service contract info for a contract.
 
-  ### Parameters
+Gets service contract info for a contract.
 
-  Parameter       | In      | Type    | Required      | Description             
-  --------------- | ----    | ------- | ----          | ----------------------- 
-  id              | path    | string  | true          | Contract identifier.
+### Parameters
+
+Parameter       | In      | Type    | Required      | Description             
+--------------- | ----    | ------- | ----          | ----------------------- 
+id              | path    | string  | true          | Contract identifier.
+
+### HTTP Request
+
+`GET http://localhost/contracts/{id}`
