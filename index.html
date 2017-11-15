@@ -117,10 +117,7 @@
                 <a href="#overview" class="toc-h1 toc-link" data-title="Overview">Overview</a>
           </li>
           <li>
-                <a href="#implementations" class="toc-h1 toc-link" data-title="Implementations">Implementations</a>
-          </li>
-          <li>
-                <a href="#service-interfaces" class="toc-h1 toc-link" data-title="Service Interfaces">Service Interfaces</a>
+                <a href="#contract-interfaces" class="toc-h1 toc-link" data-title="Contract Interfaces">Contract Interfaces</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#ark-smartbridge-payable" class="toc-h2 toc-link" data-title="Ark SmartBridge Payable">Ark SmartBridge Payable</a>
@@ -132,9 +129,6 @@
                     <a href="#expirable" class="toc-h2 toc-link" data-title="Expirable">Expirable</a>
                   </li>
               </ul>
-          </li>
-          <li>
-                <a href="#instances" class="toc-h1 toc-link" data-title="Instances">Instances</a>
           </li>
           <li>
                 <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
@@ -166,6 +160,12 @@
                 <a href="#versions" class="toc-h1 toc-link" data-title="Versions">Versions</a>
           </li>
           <li>
+                <a href="#implementations" class="toc-h1 toc-link" data-title="Implementations">Implementations</a>
+          </li>
+          <li>
+                <a href="#instances" class="toc-h1 toc-link" data-title="Instances">Instances</a>
+          </li>
+          <li>
                 <a href="#api-reference" class="toc-h1 toc-link" data-title="API Reference">API Reference</a>
           </li>
           <li>
@@ -191,42 +191,160 @@ are available in Java, Go, PHP, JavaScript, Python, and C#.</p>
 and exposes them over a simple REST-ful API. The API allows service consumers to 
 create Service contracts, pay for contracts, get results of contract executions.</p>
 
-<p><img src="images/figures/service-nodes.png" alt="Service Nodes Figure" /></p>
+<p><img src="images/figures/aces-services.svg" alt="Service Nodes Figure" /></p>
 <h1 id='overview'>Overview</h1>
-<p>todo</p>
-<h1 id='implementations'>Implementations</h1>
-<p>The ACES Service API defines a standard protocol to facilitate creation and execution
-of numerous blockchain interoperability services. As such, it is a
-high level abstraction of many different service contract types that
-needs to be implemented and hosted independently. Unlike many conventional business APIs
-that host their own proprietary services on a single server, ACES Services are
-designed to be distributed across many servers, where third-party service providers are 
-able to develop, host, monetize, and maintain individual services.</p>
+<blockquote>
+<p>Get Service Info:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s1">'https://bitcoin-transfer-service.example.com/info'</span> <span class="se">\</span>
+  -X GET
+</code></pre><pre class="highlight java tab-java"><code><span class="n">AcesServiceClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AcesServiceClient</span><span class="o">(</span>
+  <span class="s">"https://bitcoin-transfer-service.example.com"</span>
+<span class="o">);</span>
+<span class="n">Info</span> <span class="n">info</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getInfo</span><span class="o">();</span>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bitcoin Transfer Service"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transfer value from Ark to Bitcoin."</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enter the Bitcoin amount to transfer and recipient Bitcoin address."</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"capacities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"displayValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10000.00 BTC"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"flatFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 ARK"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"percentFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.25%"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"contractSchema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"btcAmount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"recipientBitcoinAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"returnArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"btcAmount"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"recipientBitcoinAddress"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"returnArkAddress"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"interfaces"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"arkSmartbridgePayable"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Create Service Contract:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s1">'http://bitcoin-transfer-service.example.com/contracts'</span> <span class="se">\</span>
+  -X POST <span class="se">\</span>
+  -d <span class="s1">'{
+    "correlationId": "8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f",
+    "arguments": {
+        "btcAmount": "1",
+        "recipientBitcoinAddress": "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX",
+        "returnArkAddres": "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeA
+    }"
+  }'</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="n">AcesServiceClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AcesServiceClient</span><span class="o">(</span>
+  <span class="s">"https://bitcoin-transfer-service.example.com"</span>
+<span class="o">);</span>
 
-<p>The Service API specifies only the base necessary capabilities for implementing a
-blockchain interoperability and contracts in a generic way that can support many
-different use-cases for interoperability services, including those that may utilize 
-multiple different blockchains or interface with physical hardware.</p>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">arguments</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">();</span>
+<span class="n">arguments</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"btcAmount"</span><span class="o">,</span> <span class="s">"1"</span><span class="o">);</span>
+<span class="n">arguments</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"recipientBitcoinAddress"</span><span class="o">,</span> <span class="s">"1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX"</span><span class="o">);</span>
+<span class="n">arguments</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"returnArkAddres"</span><span class="o">,</span> <span class="s">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="o">);</span>
 
-<p>All implementations conforming to the ACES Service API specification can be 
-consumed using the common client libraries and processing logic, 
-allowing different services to easily plugged into applications or listed on the
-Service Marketplace.</p>
-<h1 id='service-interfaces'>Service Interfaces</h1>
+<span class="n">ContractRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ContractRequest</span><span class="o">();</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setCorrelationId</span><span class="o">(</span><span class="n">UUID</span><span class="o">.</span><span class="na">randomUUID</span><span class="o">());</span>
+<span class="n">request</span><span class="o">.</span><span class="na">setArguments</span><span class="o">(</span><span class="n">arguments</span><span class="o">);</span>
+
+<span class="n">Contract</span> <span class="n">contract</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">createContract</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"abe05cd7-40c2-4fb0-a4a7-8d2f76e74978"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"correlationId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"btcAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"requiredArkAmount"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2250.00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"serviceArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AewU1vEmPrtQNjdVo33cX84bfovY3jNAkV"</span><span class="p">,</span><span class="w"> 
+  </span><span class="s2">"returnArkAddress"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"actualArkCost"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.80000000"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"returnArkAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.2000000"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"returnArkTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"contractTransactionHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"500224999259823996"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"contractAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xdaa24d02bad7e9d6a80106db164bad9399a0423e"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="s2">"2017-07-01T22:35:57.695Z"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Get Service Contract:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s1">'http://bitcoin-transfer-service.example.com/contracts/abe05cd7-40c2-4fb0-a4a7-8d2f76e74978'</span> <span class="se">\</span>
+  -X GET
+</code></pre><pre class="highlight java tab-java"><code><span class="n">AcesServiceClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AcesServiceClient</span><span class="o">(</span>
+  <span class="s">"https://bitcoin-transfer-service.example.com"</span>
+<span class="o">);</span>
+<span class="n">Contract</span> <span class="n">contract</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getContract</span><span class="o">(</span><span class="s">"abe05cd7-40c2-4fb0-a4a7-8d2f76e74978"</span><span class="o">);</span>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"abe05cd7-40c2-4fb0-a4a7-8d2f76e74978"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"correlationId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"executed"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"btcAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"requiredArkAmount"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2250.00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"serviceArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AewU1vEmPrtQNjdVo33cX84bfovY3jNAkV"</span><span class="p">,</span><span class="w"> 
+  </span><span class="s2">"returnArkAddress"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"returnArkAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50.00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"arkPaymentTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iefa85381c5c3c70f96d848df53ab7ed6135a7fb34b43e8f91f6j42018bf1258"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"returnArkTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"bitcoinTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2f12236a2684264ff33c7f1ce28ea9ed6135a7fb34af4185d504b6022fba8f77"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-01T22:35:57.695Z"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"executedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-01T22:35:58.000Z"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>At the center of the ACES Service API is the Service Contract. Each service defines
+and operates on one type of contract. A Service Contract defines a particular service
+a provider is able to fulfil, which can be anything from uploading a file to a storage
+blockchain, performing value transfers, creating smart contracts, executing code on
+blockchain based computing platforms, or interacting with IoT hardware.</p>
+
+<p><img src="images/figures/service-seq-diagram.png" alt="Service Contract Sequence Diagram" /></p>
+
+<p>Consumers of a service get the contract schema from in the Service Info 
+endpoint. This tells you what parameters a contract takes and what data is returned from the contract.
+ACES uses the <a href="http://json-schema.org/">Json Schema</a> format for defining data schemas.
+ACES Services may implement any number of <a href="&quot;#contract-interfaces&quot;">Contract Interfaces</a>, 
+which semantically define a set of contract arguments and result properties.</p>
+
+<p>ACES Services can react in real-time to blockchain events by registering with an 
+<a href="https://github.com/ark-aces/aces-encoded-listener-api">Encoded Listener</a> instance.
+For example, an ACES Service can register with an Ark Encoded Listener and
+accept service contract payment via an Ark transaction by listening for specific
+<code>SmartBridge</code> data associated with the service contract. Services can also create
+wallets for a service contract and listen for deposit transactions into that wallet.</p>
+
+<p><img src="images/figures/service-enc-listener-seq-diagram.png" 
+    alt="Service Encoded Listener Sequence Diagram" /></p>
+<h1 id='contract-interfaces'>Contract Interfaces</h1>
 <p>The ACES Service API defines a highly abstract blueprint for services that can
 perform many different types of functions across many different blockchains. 
 As such, ACES contracts are able to accept a flexible range of input values
 and return an equally flexible range of result data for contract executions.</p>
 
 <p>To simplify integration of services into a common Marketplace, the ACES Service
-API defines several Service Interfaces to control presentational aspects 
+API defines several Contract Interfaces to control presentational aspects 
 of different types of contracts.</p>
 
 <p>These interfaces tell consumers the semantic meaning of certain sets of contract 
 request and response parameters, so they can be rendered or controlled differently
 in the Marketplace or other UI applications.</p>
 
-<p>We expect to add more Services Interfaces as more blockchains are integrated
+<p>We expect to add more Contract Interfaces as more blockchains are integrated
 and different types of contracts are defined. Some examples may include interfaces
 such as <code>fileUpload</code>, <code>multiFileUpload</code>, <code>expirable</code>, etc...</p>
 <h3 id='ark-smartbridge-payable'>Ark SmartBridge Payable</h3>
@@ -291,16 +409,6 @@ date if not executed.</p>
 <td></td>
 </tr>
 </tbody></table>
-<h1 id='instances'>Instances</h1>
-<p>Instances run on any web server and can be made private or public. Multiple instances may
-also run on a single web server using different HTTP ports. </p>
-
-<p>We don&#39;t make any guarantees on how instances are managed, so consumers will need to host
-their own instances, subscribe to only trusted providers, or subscribe to multiple instances to
-ensure they can access services in the case a provider goes down.</p>
-
-<p>The upcoming ACES Service Marketplace will add a layer of trust and stability to Services
-by verifying service providers and enabling fallbacks in case a provider goes down.</p>
 <h1 id='authentication'>Authentication</h1>
 <p>The ACES Service API does not define any authentication method at this time.
 To secure services, they must be placed behind a reverse proxy that performs
@@ -486,6 +594,34 @@ breaking client integrations. ACES defines backwards compatible changes as any o
 
 <p>If breaking changes to the Service must be made, the provider needs to launch a new
 version in parallel at a different URL and have clients re-subscribe to the new version URL. </p>
+<h1 id='implementations'>Implementations</h1>
+<p>The ACES Service API defines a standard protocol to facilitate creation and execution
+of numerous blockchain interoperability services. As such, it is a
+high level abstraction of many different service contract types that
+needs to be implemented and hosted independently. Unlike many conventional business APIs
+that host their own proprietary services on a single server, ACES Services are
+designed to be distributed across many servers, where third-party service providers are 
+able to develop, host, monetize, and maintain individual services.</p>
+
+<p>The Service API specifies only the base necessary capabilities for implementing a
+blockchain interoperability and contracts in a generic way that can support many
+different use-cases for interoperability services, including those that may utilize 
+multiple different blockchains or interface with physical hardware.</p>
+
+<p>All implementations conforming to the ACES Service API specification can be 
+consumed using the common client libraries and processing logic, 
+allowing different services to easily plugged into applications or listed on the
+Service Marketplace.</p>
+<h1 id='instances'>Instances</h1>
+<p>Instances run on any web server and can be made private or public. Multiple instances may
+also run on a single web server using different HTTP ports. </p>
+
+<p>We don&#39;t make any guarantees on how instances are managed, so consumers will need to host
+their own instances, subscribe to only trusted providers, or subscribe to multiple instances to
+ensure they can access services in the case a provider goes down.</p>
+
+<p>The upcoming ACES Service Marketplace will add a layer of trust and stability to Services
+by verifying service providers and enabling fallbacks in case a provider goes down.</p>
 <h1 id='api-reference'>API Reference</h1><h1 id='health'>Health</h1><h2 id='get-health'>Get Health</h2>
       </div>
       <div class="dark-box">
