@@ -31,5 +31,5 @@ The Service API provides a common way for to define blockchain interoperability 
 and exposes them over a simple REST-ful API. The API allows service consumers to 
 create Service contracts, pay for contracts, get results of contract executions.
 
-<img src="images/figures/aces-services.svg" alt="Service Nodes Figure" />
+<img src="images/figures/aces-services-2.svg" alt="Service Nodes Figure" />
 
