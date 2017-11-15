@@ -1,4 +1,4 @@
-# Service Interfaces
+# Contract Interfaces
 
 The ACES Service API defines a highly abstract blueprint for services that can
 perform many different types of functions across many different blockchains. 
@@ -6,14 +6,14 @@ As such, ACES contracts are able to accept a flexible range of input values
 and return an equally flexible range of result data for contract executions.
 
 To simplify integration of services into a common Marketplace, the ACES Service
-API defines several Service Interfaces to control presentational aspects 
+API defines several Contract Interfaces to control presentational aspects 
 of different types of contracts.
 
 These interfaces tell consumers the semantic meaning of certain sets of contract 
 request and response parameters, so they can be rendered or controlled differently
 in the Marketplace or other UI applications.
 
-We expect to add more Services Interfaces as more blockchains are integrated
+We expect to add more Contract Interfaces as more blockchains are integrated
 and different types of contracts are defined. Some examples may include interfaces
 such as `fileUpload`, `multiFileUpload`, `expirable`, etc...
 
