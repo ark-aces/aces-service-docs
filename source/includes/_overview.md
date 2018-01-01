@@ -17,40 +17,69 @@ Info info = client.getInfo();
 
 ```json
 {
-  "name": "Bitcoin Transfer Service",
-  "description": "Transfer value from Ark to Bitcoin.",
-  "instructions": "Enter the Bitcoin amount to transfer and recipient Bitcoin address.",
+  "name": "BTC to ARK Channel Service",
+  "description": "Transfer value from BTC to ARK.",
+  "instructions": "Enter your BTC address to create an BTC to ARK transfer channel.",
   "capacities": [
     {
       "value": 10000,
-      "unit": "BTC",
-      "displayValue": "10000.00 BTC"
+      "unit": "ARK",
+      "displayValue": "10000.00 ARK"
     }
   ],
-  "flatFee": "1 ARK",
-  "percentFee": "1.25%",
-  "contractSchema": {
+  "flatFee": "0 BTC",
+  "percentFee": "1%",
+  "inputSchema": {
     "type": "object",
     "properties": {
-      "btcAmount": {
-        "type": "string"
-      },
-      "recipientBitcoinAddress": {
-        "type": "string"
-      },
-      "returnArkAddress": {
+      "recipientArkAddress": {
         "type": "string"
       }
     },
     "required": [
-      "btcAmount",
-      "recipientBitcoinAddress",
-      "returnArkAddress"
+      "recipientArkAddress"
     ]
   },
-  "interfaces": [
-    "arkSmartbridgePayable"
-  ]
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "depositBtcAddress": {
+        "type": "string"
+      },
+      "recipientArkAddress": {
+        "type": "string"
+      },
+      "transfers": {
+        "type": "array",
+        "properties": {
+          "btcAmount": {
+            "type": "string"
+          },
+          "btcToArkRate": {
+            "type": "string"
+          },
+          "btcFlatFee": {
+            "type": "string"
+          },
+          "btcPercentFee": {
+            "type": "string"
+          },
+          "btcTotalFee": {
+            "type": "string"
+          },
+          "arkSendAmount": {
+            "type": "string"
+          },
+          "arkTransactionId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }
 ```
 
@@ -58,14 +87,12 @@ Info info = client.getInfo();
 > Create Service Contract:
 
 ```shell
-curl 'http://bitcoin-transfer-service.example.com/contracts' \
+curl 'http:/btc-ark-channel-service.example.com/contracts' \
   -X POST \
   -d '{
     "correlationId": "8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f",
     "arguments": {
-        "btcAmount": "1",
-        "recipientBitcoinAddress": "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX",
-        "returnArkAddres": "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeA
+        "recipientArkAddress": "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeA"
     }"
   }'
 ```
@@ -76,9 +103,7 @@ AcesServiceClient client = new AcesServiceClient(
 );
 
 Map<String, Object> arguments = new HashMap();
-arguments.put("btcAmount", "1");
-arguments.put("recipientBitcoinAddress", "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX");
-arguments.put("returnArkAddres", "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx");
+arguments.put("recipientArkAddress", "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx");
 
 ContractRequest request = new ContractRequest();
 request.setCorrelationId(UUID.randomUUID());
@@ -91,17 +116,24 @@ Contract contract = client.createContract(request);
 {
   "id" : "abe05cd7-40c2-4fb0-a4a7-8d2f76e74978",
   "correlationId" : "8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f",
-  "status": "new",
-  "btcAmount": "1.00",
-  "requiredArkAmount" : "2250.00",
-  "serviceArkAddress": "AewU1vEmPrtQNjdVo33cX84bfovY3jNAkV", 
-  "returnArkAddress" : "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx",
-  "actualArkCost": "0.80000000",
-  "returnArkAmount": "0.2000000",
-  "returnArkTransactionId": "49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f",
-  "contractTransactionHash": "500224999259823996",
-  "contractAddress": "0xdaa24d02bad7e9d6a80106db164bad9399a0423e",
-  "createdAt":"2017-07-01T22:35:57.695Z"
+  "createdAt":"2017-07-01T22:35:57.695Z",
+  "status": "executed",
+  "results": {
+    "depositBtcAddress": "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX",
+    "recipientArkAddress": "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx",
+    "transfers": [
+      {
+        "createdAt": "2017-07-01T22:36:57.005Z",
+        "btcAmount": "1.000",
+        "btcToArkRate": "0.040",
+        "btcFlatFee": "0",
+        "btcPercentFee": "1",
+        "btcTotalFee": "0.001",
+        "arkSendAmount": "40.000",
+        "arkTransactionId": "49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f"
+      }
+    ]
+  }
 }
 ```
 
@@ -123,17 +155,24 @@ Contract contract = client.getContract("abe05cd7-40c2-4fb0-a4a7-8d2f76e74978");
 {
   "id" : "abe05cd7-40c2-4fb0-a4a7-8d2f76e74978",
   "correlationId" : "8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f",
+  "createdAt":"2017-07-01T22:35:57.695Z",
   "status": "executed",
-  "btcAmount": "1.00",
-  "requiredArkAmount" : "2250.00",
-  "serviceArkAddress": "AewU1vEmPrtQNjdVo33cX84bfovY3jNAkV", 
-  "returnArkAddress" : "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx",
-  "returnArkAmount": "50.00",
-  "arkPaymentTransactionId": "iefa85381c5c3c70f96d848df53ab7ed6135a7fb34b43e8f91f6j42018bf1258",
-  "returnArkTransactionId": "49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f",
-  "bitcoinTransactionId": "2f12236a2684264ff33c7f1ce28ea9ed6135a7fb34af4185d504b6022fba8f77",
-  "createdAt": "2017-07-01T22:35:57.695Z",
-  "executedAt": "2017-07-01T22:35:58.000Z"
+  "results": {
+    "depositBtcAddress": "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX",
+    "recipientArkAddress": "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx",
+    "transfers": [
+      {
+        "createdAt": "2017-07-01T22:36:57.005Z",
+        "btcAmount": "1.000",
+        "btcToArkRate": "0.040",
+        "btcFlatFee": "0",
+        "btcPercentFee": "1",
+        "btcTotalFee": "0.001",
+        "arkSendAmount": "40.000",
+        "arkTransactionId": "49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f"
+      }
+    ]
+  }
 }
 ```
 
