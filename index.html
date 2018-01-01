@@ -222,53 +222,80 @@ create Service contracts, pay for contracts, get results of contract executions.
 <span class="o">);</span>
 <span class="n">Info</span> <span class="n">info</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getInfo</span><span class="o">();</span>
 </code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bitcoin Transfer Service"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transfer value from Ark to Bitcoin."</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enter the Bitcoin amount to transfer and recipient Bitcoin address."</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC to ARK Channel Service"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transfer value from BTC to ARK."</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enter your BTC address to create an BTC to ARK transfer channel."</span><span class="p">,</span><span class="w">
   </span><span class="s2">"capacities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"displayValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10000.00 BTC"</span><span class="w">
+      </span><span class="s2">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ARK"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"displayValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10000.00 ARK"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"flatFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 ARK"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"percentFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.25%"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"contractSchema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"flatFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0 BTC"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"percentFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1%"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"inputSchema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"btcAmount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="s2">"recipientBitcoinAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="s2">"returnArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"recipientArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="s2">"btcAmount"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"recipientBitcoinAddress"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"returnArkAddress"</span><span class="w">
+      </span><span class="s2">"recipientArkAddress"</span><span class="w">
     </span><span class="p">]</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"interfaces"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="s2">"arkSmartbridgePayable"</span><span class="w">
-  </span><span class="p">]</span><span class="w">
+  </span><span class="s2">"outputSchema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"depositBtcAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"recipientArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"transfers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"array"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"btcAmount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"btcToArkRate"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"btcFlatFee"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"btcPercentFee"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"btcTotalFee"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"arkSendAmount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"arkTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <blockquote>
 <p>Create Service Contract:</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code>curl <span class="s1">'http://bitcoin-transfer-service.example.com/contracts'</span> <span class="se">\</span>
+<pre class="highlight shell tab-shell"><code>curl <span class="s1">'http:/btc-ark-channel-service.example.com/contracts'</span> <span class="se">\</span>
   -X POST <span class="se">\</span>
   -d <span class="s1">'{
     "correlationId": "8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f",
     "arguments": {
-        "btcAmount": "1",
-        "recipientBitcoinAddress": "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX",
-        "returnArkAddres": "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeA
+        "recipientArkAddress": "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeA"
     }"
   }'</span>
 </code></pre><pre class="highlight java tab-java"><code><span class="n">AcesServiceClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AcesServiceClient</span><span class="o">(</span>
@@ -276,9 +303,7 @@ create Service contracts, pay for contracts, get results of contract executions.
 <span class="o">);</span>
 
 <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">arguments</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">();</span>
-<span class="n">arguments</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"btcAmount"</span><span class="o">,</span> <span class="s">"1"</span><span class="o">);</span>
-<span class="n">arguments</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"recipientBitcoinAddress"</span><span class="o">,</span> <span class="s">"1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX"</span><span class="o">);</span>
-<span class="n">arguments</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"returnArkAddres"</span><span class="o">,</span> <span class="s">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="o">);</span>
+<span class="n">arguments</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"recipientArkAddress"</span><span class="o">,</span> <span class="s">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="o">);</span>
 
 <span class="n">ContractRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ContractRequest</span><span class="o">();</span>
 <span class="n">request</span><span class="o">.</span><span class="na">setCorrelationId</span><span class="o">(</span><span class="n">UUID</span><span class="o">.</span><span class="na">randomUUID</span><span class="o">());</span>
@@ -288,17 +313,24 @@ create Service contracts, pay for contracts, get results of contract executions.
 </code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"abe05cd7-40c2-4fb0-a4a7-8d2f76e74978"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"correlationId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"btcAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"requiredArkAmount"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2250.00"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"serviceArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AewU1vEmPrtQNjdVo33cX84bfovY3jNAkV"</span><span class="p">,</span><span class="w"> 
-  </span><span class="s2">"returnArkAddress"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"actualArkCost"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.80000000"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"returnArkAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.2000000"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"returnArkTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"contractTransactionHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"500224999259823996"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"contractAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xdaa24d02bad7e9d6a80106db164bad9399a0423e"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="s2">"2017-07-01T22:35:57.695Z"</span><span class="w">
+  </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="s2">"2017-07-01T22:35:57.695Z"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"executed"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"depositBtcAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"recipientArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transfers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-01T22:36:57.005Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"btcAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"btcToArkRate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.040"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"btcFlatFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"btcPercentFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"btcTotalFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"arkSendAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40.000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"arkTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <blockquote>
@@ -313,17 +345,24 @@ create Service contracts, pay for contracts, get results of contract executions.
 </code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"abe05cd7-40c2-4fb0-a4a7-8d2f76e74978"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"correlationId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"8bbcbe9c-4955-4fd6-b97b-0bf3e8b5809f"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="s2">"2017-07-01T22:35:57.695Z"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"executed"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"btcAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"requiredArkAmount"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2250.00"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"serviceArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AewU1vEmPrtQNjdVo33cX84bfovY3jNAkV"</span><span class="p">,</span><span class="w"> 
-  </span><span class="s2">"returnArkAddress"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"returnArkAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50.00"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"arkPaymentTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iefa85381c5c3c70f96d848df53ab7ed6135a7fb34b43e8f91f6j42018bf1258"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"returnArkTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"bitcoinTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2f12236a2684264ff33c7f1ce28ea9ed6135a7fb34af4185d504b6022fba8f77"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-01T22:35:57.695Z"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"executedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-01T22:35:58.000Z"</span><span class="w">
+  </span><span class="s2">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"depositBtcAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"recipientArkAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"transfers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-01T22:36:57.005Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"btcAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"btcToArkRate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.040"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"btcFlatFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"btcPercentFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"btcTotalFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.001"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"arkSendAmount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40.000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"arkTransactionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49f55381c5c3c70f96d848df53ab7f9ae9881dbb8eb43e8f91f642018bf1258f"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>At the center of the ACES Service API is the Service Contract. Each service defines
